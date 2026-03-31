@@ -1,0 +1,53 @@
+<mapper namespace="com.LOLCAA.mapper.DraftAnalysisMapper">
+
+    <select id="findByDraftId" resultType="com.LOLCAA.entity.DraftAnalysis">
+        SELECT * FROM draft_analysis WHERE draft_id = #{draftId}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO draft_analysis(
+        draft_id,
+        matchup_score,
+        matchup_detail,
+        synergy_score,
+        synergy_detail,
+        team_synergy_score,
+        team_synergy_detail,
+        ally_destructive_score,
+        enemy_destructive_score,
+        final_score,
+        recommendation,
+        win_probability,
+        create_time,
+        analysis_time
+        )
+        VALUES (
+        #{draftId},
+        #{matchupScore},
+        #{matchupDetail},
+        #{synergyScore},
+        #{synergyDetail},
+        #{teamSynergyScore},
+        #{teamSynergyDetail},
+        #{allyDestructiveScore},
+        #{enemyDestructiveScore},
+        #{finalScore},
+        #{recommendation},
+        #{winProbability},
+        #{createTime},
+        #{analysisTime}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE draft_analysis
+        SET matchup_score=#{matchupScore},
+        synergy_score=#{synergyScore},
+        team_synergy_score=#{teamSynergyScore},
+        final_score=#{finalScore},
+        recommendation=#{recommendation},
+        analysis_time=#{analysisTime}
+        WHERE draft_id=#{draftId}
+    </update>
+
+</mapper>

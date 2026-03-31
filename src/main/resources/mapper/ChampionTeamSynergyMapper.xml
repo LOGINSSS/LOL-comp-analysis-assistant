@@ -1,0 +1,17 @@
+<mapper namespace="com.LOLCAA.mapper.ChampionTeamSynergyMapper">
+
+    <select id="findTeamSynergyScore" resultType="double">
+        SELECT team_synergy_score
+        FROM champion_team_synergy
+        WHERE champion_ids = #{championIds}
+        LIMIT 1
+    </select>
+
+    <select id="findDescription" resultType="string">
+        SELECT description
+        FROM champion_team_synergy
+        WHERE champion_ids = #{championIds}
+        LIMIT 1
+    </select>
+
+</mapper>

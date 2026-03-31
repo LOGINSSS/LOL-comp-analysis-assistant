@@ -1,0 +1,30 @@
+<mapper namespace="com.LOLCAA.mapper.ChampionMatchupMapper">
+
+    <select id="findWinRates" resultType="double">
+        SELECT win_rate
+        FROM champion_matchup
+        WHERE champion_id IN
+        <foreach collection="ally" item="a" open="(" separator="," close=")">
+            #{a}
+        </foreach>
+        AND vs_champion_id IN
+        <foreach collection="enemy" item="e" open="(" separator="," close=")">
+            #{e}
+        </foreach>
+    </select>
+
+    <select id="findWinRatesByRole" resultType="double">
+        SELECT win_rate
+        FROM champion_matchup
+        WHERE role = #{role}
+        AND champion_id IN
+        <foreach collection="ally" item="a" open="(" separator="," close=")">
+            #{a}
+        </foreach>
+        AND vs_champion_id IN
+        <foreach collection="enemy" item="e" open="(" separator="," close=")">
+            #{e}
+        </foreach>
+    </select>
+
+</mapper>

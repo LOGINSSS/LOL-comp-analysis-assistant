@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16
+    container_name: lol-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: lol_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - lol-network
+
+  redis:
+    image: redis:7.2
+    container_name: lol-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - lol-network
+
+volumes:
+  postgres_data:
+
+networks:
+  lol-network:
+    driver: bridge

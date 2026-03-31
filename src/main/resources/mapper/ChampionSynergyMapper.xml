@@ -1,0 +1,24 @@
+<mapper namespace="com.LOLCAA.mapper.ChampionSynergyMapper">
+
+    <select id="findSynergyWinRates" resultType="double">
+        SELECT win_rate
+        FROM champion_synergy
+        WHERE champion1_id IN
+        <foreach collection="championIds" item="c" open="(" separator="," close=")">
+            #{c}
+        </foreach>
+        AND champion2_id IN
+        <foreach collection="championIds" item="c" open="(" separator="," close=")">
+            #{c}
+        </foreach>
+    </select>
+
+    <select id="findPairWinRate" resultType="double">
+        SELECT win_rate
+        FROM champion_synergy
+        WHERE champion1_id = #{c1}
+        AND champion2_id = #{c2}
+        LIMIT 1
+    </select>
+
+</mapper>

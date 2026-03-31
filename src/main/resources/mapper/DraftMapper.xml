@@ -1,0 +1,12 @@
+<mapper namespace="com.LOLCAA.mapper.DraftMapper">
+
+    <select id="findById" resultType="com.LOLCAA.entity.Draft">
+        SELECT * FROM draft WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO draft(ally_team_ids, enemy_team_ids, create_time, region)
+        VALUES (#{allyTeamIds}, #{enemyTeamIds}, #{createTime}, #{region})
+    </insert>
+
+</mapper>
