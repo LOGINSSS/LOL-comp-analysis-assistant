@@ -1,23 +1,17 @@
 package com.LOLCAA.domain.po;
 
-import jakarta.persistence.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@Entity
-@Table(name = "champion_synergy")
+@TableName("champion_synergy")
 @Data
 public class ChampionSynergy {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "champion1_id")
-    private Champion champion1;  // 英雄1
-
-    @ManyToOne
-    @JoinColumn(name = "champion2_id")
-    private Champion champion2;  // 英雄2
+    private Long champion1Id;  // 英雄1 ID
+    private Long champion2Id;  // 英雄2 ID
 
     private Double winRate;      // 双英雄配合胜率
     private Integer gameCount;   // 数据样本量

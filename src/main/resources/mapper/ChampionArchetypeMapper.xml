@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.LOLCAA.mapper.ChampionArchetypeMapper">
+
+    <resultMap id="ChampionArchetypeResultMap" type="com.LOLCAA.domain.po.ChampionArchetype">
+        <id property="championId" column="champion_id" />
+        <result property="macroRole" column="macro_role" />
+        <result property="subRole" column="sub_role" />
+    </resultMap>
+
+    <select id="findByChampionId" resultMap="ChampionArchetypeResultMap">
+        SELECT * FROM champion_archetype WHERE champion_id = #{championId}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO champion_archetype(champion_id, macro_role, sub_role)
+        VALUES (#{championId}, #{macroRole}, #{subRole})
+    </insert>
+
+    <update id="update">
+        UPDATE champion_archetype
+        SET macro_role=#{macroRole},
+            sub_role=#{subRole}
+        WHERE champion_id=#{championId}
+    </update>
+
+    <delete id="deleteByChampionId">
+        DELETE FROM champion_archetype WHERE champion_id = #{championId}
+    </delete>
+
+</mapper>

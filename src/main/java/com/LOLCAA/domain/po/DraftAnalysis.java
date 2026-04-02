@@ -1,19 +1,17 @@
 package com.LOLCAA.domain.po;
 
-import jakarta.persistence.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@Entity
-@Table(name = "draft_analysis")
+@TableName("draft_analysis")
 @Data
 public class DraftAnalysis {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "draft_id")
-    private Draft draft;
+    private Long draftId;  // 外键引用draft表
 
     // ========== 各权重分数 ==========
     private Double matchupScore;           // 对线权重分 (0-100)

@@ -4,11 +4,21 @@
 
 <mapper namespace="com.LOLCAA.mapper.ChampionMapper">
 
-    <select id="findById" resultType="com.LOLCAA.entity.Champion">
+    <resultMap id="ChampionResultMap" type="com.LOLCAA.domain.po.Champion">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="primaryRole" column="primary_role" />
+        <result property="secondaryRole" column="secondary_role" />
+        <result property="tier" column="tier" />
+        <result property="pickRate" column="pick_rate" />
+        <result property="winRate" column="win_rate" />
+    </resultMap>
+
+    <select id="findById" resultMap="ChampionResultMap">
         SELECT * FROM champion WHERE id = #{id}
     </select>
 
-    <select id="findByIds" resultType="com.LOLCAA.entity.Champion">
+    <select id="findByIds" resultMap="ChampionResultMap">
         SELECT * FROM champion
         WHERE id IN
         <foreach collection="ids" item="id" open="(" separator="," close=")">
@@ -16,19 +26,20 @@
         </foreach>
     </select>
 
-    <select id="findAll" resultType="com.LOLCAA.entity.Champion">
+    <select id="findAll" resultMap="ChampionResultMap">
         SELECT * FROM champion
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO champion(name, role, tier, pick_rate, win_rate)
-        VALUES (#{name}, #{role}, #{tier}, #{pickRate}, #{winRate})
+        INSERT INTO champion(name, primary_role, secondary_role, tier, pick_rate, win_rate)
+        VALUES (#{name}, #{primaryRole}, #{secondaryRole}, #{tier}, #{pickRate}, #{winRate})
     </insert>
 
     <update id="update">
         UPDATE champion
         SET name=#{name},
-            role=#{role},
+            primary_role=#{primaryRole},
+            secondary_role=#{secondaryRole},
             tier=#{tier},
             pick_rate=#{pickRate},
             win_rate=#{winRate}

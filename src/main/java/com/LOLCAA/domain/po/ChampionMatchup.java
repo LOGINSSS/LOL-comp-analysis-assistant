@@ -1,23 +1,17 @@
 package com.LOLCAA.domain.po;
 
-import jakarta.persistence.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@Entity
-@Table(name = "champion_matchup")
+@TableName("champion_matchup")
 @Data
 public class ChampionMatchup {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "champion_id")
-    private Champion champion;  // 这个英雄
-
-    @ManyToOne
-    @JoinColumn(name = "vs_champion_id")
-    private Champion vsChampion;  // 对线对手
+    private Long championId;     // 英雄 ID
+    private Long vsChampionId;   // 对线对手 ID
 
     private Double winRate;      // 对线胜率（权重）
     private Integer gameCount;   // 对线数据样本量

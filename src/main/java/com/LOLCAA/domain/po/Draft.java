@@ -1,23 +1,20 @@
 package com.LOLCAA.domain.po;
 
-import jakarta.persistence.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import java.util.List;
 
-@Entity
-@Table(name = "draft")
+@TableName("draft")
 @Data
 public class Draft {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     // 己方5个英雄 ID，逗号分隔
-    @Column(name = "ally_team_ids")
     private String allyTeamIds;
 
     // 敌方5个英雄 ID，逗号分隔
-    @Column(name = "enemy_team_ids")
     private String enemyTeamIds;
 
     private Long createTime;

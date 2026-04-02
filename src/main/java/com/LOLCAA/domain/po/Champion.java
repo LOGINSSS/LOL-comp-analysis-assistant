@@ -1,21 +1,21 @@
 package com.LOLCAA.domain.po;
 
-import jakarta.persistence.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@Entity
-@Table(name = "champion")
+@TableName("champion")
 @Data
 public class Champion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(type = IdType.AUTO)
     private Long id;
 
-    @Column(unique = true)
     private String name;
 
-    private String role;      // Top/Jungle/Mid/ADC/Support
-    private String tier;       // S/A/B/C/D
-    private Double pickRate;   // op.gg 选取率
-    private Double winRate;    // op.gg 胜率
+    private String primaryRole;    // 主要位置
+    private String secondaryRole;  // 次要位置
+    private String tier;           // 段位评级
+    private Double pickRate;       // 选取率
+    private Double winRate;        // 胜率
 }

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.LOLCAA.mapper.ChampionStatProfileMapper">
+
+    <resultMap id="ChampionStatProfileResultMap" type="com.LOLCAA.domain.po.ChampionStatProfile">
+        <id property="championId" column="champion_id" />
+        <result property="tankiness" column="tankiness" />
+        <result property="frontline" column="frontline" />
+        <result property="burst" column="burst" />
+        <result property="dps" column="dps" />
+        <result property="poke" column="poke" />
+        <result property="cc" column="cc" />
+        <result property="engage" column="engage" />
+        <result property="disengage" column="disengage" />
+        <result property="peel" column="peel" />
+        <result property="heal" column="heal" />
+        <result property="shield" column="shield" />
+        <result property="buff" column="buff" />
+        <result property="debuff" column="debuff" />
+        <result property="assassination" column="assassination" />
+        <result property="mobility" column="mobility" />
+        <result property="backlineAccess" column="backline_access" />
+    </resultMap>
+
+    <select id="findByChampionId" resultMap="ChampionStatProfileResultMap">
+        SELECT * FROM champion_stat_profile WHERE champion_id = #{championId}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO champion_stat_profile(
+            champion_id,
+            tankiness,
+            frontline,
+            burst,
+            dps,
+            poke,
+            cc,
+            engage,
+            disengage,
+            peel,
+            heal,
+            shield,
+            buff,
+            debuff,
+            assassination,
+            mobility,
+            backline_access
+        )
+        VALUES (
+            #{championId},
+            #{tankiness},
+            #{frontline},
+            #{burst},
+            #{dps},
+            #{poke},
+            #{cc},
+            #{engage},
+            #{disengage},
+            #{peel},
+            #{heal},
+            #{shield},
+            #{buff},
+            #{debuff},
+            #{assassination},
+            #{mobility},
+            #{backlineAccess}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE champion_stat_profile
+        SET tankiness=#{tankiness},
+            frontline=#{frontline},
+            burst=#{burst},
+            dps=#{dps},
+            poke=#{poke},
+            cc=#{cc},
+            engage=#{engage},
+            disengage=#{disengage},
+            peel=#{peel},
+            heal=#{heal},
+            shield=#{shield},
+            buff=#{buff},
+            debuff=#{debuff},
+            assassination=#{assassination},
+            mobility=#{mobility},
+            backline_access=#{backlineAccess}
+        WHERE champion_id=#{championId}
+    </update>
+
+    <delete id="deleteByChampionId">
+        DELETE FROM champion_stat_profile WHERE champion_id = #{championId}
+    </delete>
+
+</mapper>
