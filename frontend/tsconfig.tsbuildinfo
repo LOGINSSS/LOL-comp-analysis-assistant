@@ -1,0 +1,1 @@
+{"root":["./src/env.d.ts","./src/main.ts","./src/api/http.ts","./src/api/lastpick.ts","./src/data/champions.ts","./src/types/lastpick.ts","./src/app.vue"],"version":"5.9.3"}
