@@ -1,6 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.LOLCAA.mapper.DraftAnalysisMapper">
 
-    <select id="findByDraftId" resultType="com.LOLCAA.entity.DraftAnalysis">
+    <select id="findByDraftId" resultType="com.LOLCAA.domain.po.DraftAnalysis">
         SELECT * FROM draft_analysis WHERE draft_id = #{draftId}
     </select>
 
@@ -41,13 +45,13 @@
 
     <update id="update">
         UPDATE draft_analysis
-        SET matchup_score=#{matchupScore},
-        synergy_score=#{synergyScore},
-        team_synergy_score=#{teamSynergyScore},
-        final_score=#{finalScore},
-        recommendation=#{recommendation},
-        analysis_time=#{analysisTime}
-        WHERE draft_id=#{draftId}
+        SET matchup_score = #{matchupScore},
+            synergy_score = #{synergyScore},
+            team_synergy_score = #{teamSynergyScore},
+            final_score = #{finalScore},
+            recommendation = #{recommendation},
+            analysis_time = #{analysisTime}
+        WHERE draft_id = #{draftId}
     </update>
 
 </mapper>

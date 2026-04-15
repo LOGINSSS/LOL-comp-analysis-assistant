@@ -23,10 +23,38 @@ export interface DraftAnalysisResponse {
   analysisTime?: number;
 }
 
+export type ChampionRoleKey = 'TOP' | 'JUNGLE' | 'MID' | 'ADC' | 'SUP';
+
+export interface ChampionAttributeScores {
+  tankiness?: number;
+  frontline?: number;
+  burst?: number;
+  dps?: number;
+  poke?: number;
+  cc?: number;
+  engage?: number;
+  disengage?: number;
+  peel?: number;
+  heal?: number;
+  shield?: number;
+  buff?: number;
+  debuff?: number;
+  assassination?: number;
+  mobility?: number;
+  backlineAccess?: number;
+}
+
 export interface ChampionOption {
   id: number;
   name: string;
   primaryRole: string;
   secondaryRole?: string;
+  tier?: string;
+  pickRate?: number;
+  winRate?: number;
+  imageUrl?: string;
+  attributes?: ChampionAttributeScores;
 }
+
+export type ChampionBuckets = Record<ChampionRoleKey, ChampionOption[]>;
 

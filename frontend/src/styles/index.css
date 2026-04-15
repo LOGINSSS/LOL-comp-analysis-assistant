@@ -1,0 +1,343 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --draft-shell-width: 1440px;
+  --draft-shell-height: 960px;
+  --hero-card-width: var(--avatar-size-card);
+  --hero-card-img-height: var(--avatar-size-card);
+  --hero-card-name-height: 1.25rem;
+  --hero-pool-gap: 1rem;
+  --fixed-main-width: 1440px; /* 新增：固定总宽度 */
+}
+
+body {
+  @apply m-0 bg-black font-sans text-slate-100;
+}
+
+.draft-root {
+  @apply flex min-h-screen items-center justify-center bg-gradient-to-b from-black via-slate-950 to-slate-900 p-4 text-slate-100;
+  /* 添加：确保内容不收缩 */
+  min-width: min-content;
+  overflow-x: auto; /* 根容器出现横向滚动条 */
+}
+
+/* 修改 draft-shell - 固定总宽度 */
+.draft-shell {
+  width: min(var(--draft-shell-width), calc(100vw - 5rem));
+  height: min(var(--draft-shell-height), calc(100vh - 5rem));
+  min-width: var(--fixed-main-width); /* 强制最小宽度 */
+  @apply  rounded-2xl border border-slate-700/70 bg-slate-950/80 shadow-2xl;
+  /* overflow: auto 允许滚动 */
+}
+
+/* 修改 draft-main - 固定网格宽度 */
+.draft-main {
+  height: calc(100% - 20rem);
+  @apply grid gap-4 px-4 pb-4;
+  grid-template-columns: 150px 1080px 150px; /* 固定宽度，不换行 */
+  width: max-content; /* 按内容宽度 */
+  min-width: 100%; /* 确保至少占满 */
+}
+
+.draft-shell::-webkit-scrollbar-track {
+  @apply bg-slate-900/60 rounded;
+}
+
+.draft-shell::-webkit-scrollbar-thumb {
+  @apply bg-slate-600 rounded;
+}
+
+.draft-shell::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-500;
+}
+
+.panel {
+  @apply rounded-xl border border-slate-700/60 bg-slate-900/60 p-3 shadow-lg backdrop-blur;
+}
+
+.phase-title {
+  @apply text-5xl font-bold tracking-wider text-slate-100;
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.95);
+}
+
+.ban-slot {
+  @apply relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-lg border border-slate-500 bg-slate-500/20 text-slate-500;
+}
+
+.ban-board {
+  @apply mx-auto flex max-w-[760px] items-center justify-center gap-3 rounded-xl border border-slate-700/70 bg-slate-900/70 p-3;
+}
+
+.ban-group {
+  @apply grid grid-cols-5 gap-10;
+}
+
+.ban-divider {
+  @apply px-2 text-xs font-bold tracking-[0.2em] text-slate-400;
+}
+
+.ban-slot img {
+  @apply h-full w-full object-cover grayscale;
+}
+
+.ban-slot:disabled {
+  @apply cursor-not-allowed opacity-65;
+}
+
+.slot-row {
+  @apply flex h-44 w-40 flex-col items-center justify-start rounded-lg border border-slate-800 bg-slate-800/0 p-3 text-center transition;
+}
+
+.slot-row:hover,
+.slot-active {
+  @apply border-cyan-500/70;
+}
+
+.slot-row:disabled {
+  @apply cursor-not-allowed opacity-60;
+}
+
+.team-red .slot-active {
+  @apply border-rose-500/70;
+}
+
+.slot-role-label {
+  @apply text-xs tracking-wide text-slate-300;
+}
+
+.slot-avatar-wrap {
+  @apply flex min-h-[88px] items-center justify-center;
+}
+
+.slot-hero-name {
+  min-height: 2rem;
+  @apply overflow-hidden text-sm leading-5 text-slate-100;
+}
+
+.placeholder-pulse {
+  @apply text-xs text-slate-400;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+
+.tab-btn {
+  @apply rounded-md border border-slate-700 px-2 py-1 text-xs text-slate-300 transition;
+}
+
+.tab-btn:hover,
+.tab-btn-active {
+  @apply border-cyan-400 text-cyan-300;
+}
+
+.search-input {
+  @apply h-8 rounded-md border border-slate-700 bg-slate-800 px-3 py-1 text-sm text-slate-100 outline-none;
+}
+
+.search-input:focus {
+  @apply border-cyan-500;
+}
+
+/* hero-pool-panel 固定宽度 */
+.hero-pool-panel {
+  width: 1080px;
+  height: 720px;
+}
+
+
+.champion-card {
+  width: var(--hero-card-width);
+  @apply relative flex flex-col items-center bg-transparent p-0 transition-transform duration-200 ease-out;
+}
+
+.champion-card:hover {
+  transform: translateY(-4px);
+}
+
+.champion-card:focus-visible {
+  @apply rounded-md ring-2 ring-cyan-400 ring-offset-2 ring-offset-slate-950;
+}
+
+.champion-card .avatar-frame {
+  border-radius: 0.4rem;
+}
+
+.champion-card img {
+  height: var(--hero-card-img-height);
+}
+
+.champion-card-name {
+  height: var(--hero-card-name-height);
+  @apply mt-1 w-full truncate text-center text-[11px] text-slate-100;
+}
+
+.champion-card.is-banned {
+  @apply opacity-70 grayscale;
+}
+
+.champion-card.is-picked-blue .avatar-frame {
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.9), 0 0 14px rgba(34, 211, 238, 0.35);
+}
+
+.champion-card.is-picked-red .avatar-frame {
+  box-shadow: 0 0 0 1px rgba(251, 113, 133, 0.9), 0 0 14px rgba(251, 113, 133, 0.35);
+}
+
+.hero-pool-scroll {
+  min-height: 0;
+  scrollbar-gutter: stable;
+  @apply overflow-y-scroll overflow-x-hidden rounded-lg border border-slate-700/60 bg-slate-950/60 p-2 pr-1;
+}
+
+.hero-pool-grid {
+  display: grid;
+  grid-template-columns: repeat(9, var(--hero-card-width));
+  gap: var(--hero-pool-gap);
+  width: max-content;
+}
+
+.hero-pool-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.hero-pool-scroll::-webkit-scrollbar-thumb {
+  @apply rounded-full border-2 border-slate-900/80 bg-slate-500;
+}
+
+.hero-pool-scroll::-webkit-scrollbar-track {
+  @apply rounded-full bg-slate-900/60;
+}
+
+.hero-pool-scroll {
+  scrollbar-color: #64748b #0f172a;
+  scrollbar-width: thin;
+}
+
+.pool-sort-bar {
+  @apply flex items-center justify-end gap-2;
+}
+
+.pool-sort-label {
+  @apply text-xs tracking-wide text-slate-300;
+}
+
+.pool-sort-select {
+  @apply rounded-md border border-slate-600 bg-slate-800 px-2 py-1 text-xs text-slate-100 outline-none;
+}
+
+.pool-sort-select:focus {
+  @apply border-cyan-500;
+}
+
+.banned-mark {
+  @apply absolute inset-0 flex items-center justify-center text-2xl font-bold text-rose-500;
+  text-shadow: 0 0 14px rgba(240, 62, 62, 0.8);
+}
+
+.btn-primary {
+  @apply rounded-md border border-cyan-300/50 bg-cyan-500/20 px-4 py-2 text-sm font-semibold text-cyan-100 transition;
+  box-shadow: 0 0 16px rgba(0, 176, 240, 0.25);
+}
+
+.btn-primary:hover {
+  @apply bg-cyan-500/30;
+}
+
+.btn-primary:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.btn-secondary {
+  @apply rounded-md border border-slate-600 bg-slate-800/80 px-4 py-2 text-sm text-slate-200;
+}
+
+.btn-ban {
+  @apply rounded-md border border-rose-300/70 bg-rose-500/20 px-4 py-2 text-sm font-semibold text-rose-100 transition;
+  box-shadow: 0 0 14px rgba(244, 63, 94, 0.35);
+}
+
+.btn-ban:hover {
+  @apply bg-rose-500/30;
+}
+
+.btn-ban:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.btn-double-height {
+  @apply inline-flex min-w-[16rem] justify-center px-8 py-4;
+}
+
+.btn-analyze {
+  @apply rounded-md border border-amber-300/70 bg-amber-300 px-4 py-2 text-sm font-extrabold tracking-wide text-slate-950 transition;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.35);
+}
+
+.btn-analyze:hover {
+  @apply bg-amber-200;
+}
+
+.btn-analyze:disabled {
+  @apply cursor-not-allowed border-amber-300/30 bg-amber-200/40 text-slate-700;
+  box-shadow: none;
+}
+
+.analysis-dock {
+  @apply w-full;
+}
+
+.analysis-dock-title {
+  @apply mb-3 w-full text-left font-bold tracking-wider text-slate-100;
+  font-size: clamp(1.4rem, 1.9vw, 2rem);
+  text-shadow: 0 0 14px rgba(34, 211, 238, 0.45);
+}
+
+.final-pick-btn {
+  @apply w-full rounded-md border border-amber-300/50 bg-amber-400/15 px-4 py-3 text-sm font-bold tracking-wide text-amber-100;
+  animation: final-pick-pulse 1.8s infinite;
+}
+
+.final-pick-btn:disabled {
+  @apply cursor-not-allowed opacity-40;
+  animation: none;
+}
+
+@keyframes final-pick-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 24px rgba(245, 158, 11, 0.55);
+  }
+}
+
+.skeleton-line {
+  @apply rounded bg-slate-700/70;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+

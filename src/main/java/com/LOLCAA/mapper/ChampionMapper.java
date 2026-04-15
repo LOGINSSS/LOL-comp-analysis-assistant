@@ -15,6 +15,8 @@ public interface ChampionMapper {
 
     List<Champion> findAll();
 
+    List<Champion> findByRoleAndName(@Param("roles") List<String> roles, @Param("name") String name);
+
     int insert(Champion champion);
 
     int update(Champion champion);

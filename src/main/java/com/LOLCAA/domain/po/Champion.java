@@ -12,6 +12,7 @@ public class Champion {
     private Long id;
 
     private String name;
+    private String imageUrl;
 
     private String primaryRole;    // 主要位置
     private String secondaryRole;  // 次要位置

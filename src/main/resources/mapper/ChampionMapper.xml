@@ -7,6 +7,7 @@
     <resultMap id="ChampionResultMap" type="com.LOLCAA.domain.po.Champion">
         <id property="id" column="id" />
         <result property="name" column="name" />
+        <result property="imageUrl" column="image_url" />
         <result property="primaryRole" column="primary_role" />
         <result property="secondaryRole" column="secondary_role" />
         <result property="tier" column="tier" />
@@ -30,14 +31,37 @@
         SELECT * FROM champion
     </select>
 
+    <select id="findByRoleAndName" resultMap="ChampionResultMap">
+        SELECT * FROM champion
+        <where>
+            <if test="roles != null and roles.size() > 0">
+                AND (
+                    primary_role IN
+                    <foreach collection="roles" item="role" open="(" separator="," close=")">
+                        #{role}
+                    </foreach>
+                    OR secondary_role IN
+                    <foreach collection="roles" item="role" open="(" separator="," close=")">
+                        #{role}
+                    </foreach>
+                )
+            </if>
+            <if test="name != null and name != ''">
+                AND LOWER(name) LIKE CONCAT('%', LOWER(#{name}), '%')
+            </if>
+        </where>
+        ORDER BY id ASC
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO champion(name, primary_role, secondary_role, tier, pick_rate, win_rate)
-        VALUES (#{name}, #{primaryRole}, #{secondaryRole}, #{tier}, #{pickRate}, #{winRate})
+        INSERT INTO champion(name, image_url, primary_role, secondary_role, tier, pick_rate, win_rate)
+        VALUES (#{name}, #{imageUrl}, #{primaryRole}, #{secondaryRole}, #{tier}, #{pickRate}, #{winRate})
     </insert>
 
     <update id="update">
         UPDATE champion
         SET name=#{name},
+            image_url=#{imageUrl},
             primary_role=#{primaryRole},
             secondary_role=#{secondaryRole},
             tier=#{tier},

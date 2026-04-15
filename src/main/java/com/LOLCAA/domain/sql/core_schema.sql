@@ -4,6 +4,7 @@
 CREATE TABLE champion (
                           id BIGSERIAL PRIMARY KEY,
                           name VARCHAR(100) UNIQUE NOT NULL,
+                          image_url VARCHAR(255),
 
     -- 主位置体系（稳定）
                           primary_role VARCHAR(20),   -- TOP / JG / MID / ADC / SUP

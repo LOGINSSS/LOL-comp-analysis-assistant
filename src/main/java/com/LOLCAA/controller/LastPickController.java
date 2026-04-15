@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * 红色方最后一选分析控制器
  */
 @RestController
-@RequestMapping("/api/last-pick")
+@RequestMapping("/last-pick")
 @RequiredArgsConstructor
 public class LastPickController {
 
