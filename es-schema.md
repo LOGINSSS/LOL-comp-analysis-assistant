@@ -13,14 +13,14 @@
 
 推荐最小集合：
 
-1) `lol_matches_v1`（对局明细，核心）
+1) `lol_matches`（对局明细，核心）
 2) （可选）`lol_champion_baseline_v1`（按 patch/rank/role 预聚合的 baseline，减少在线压力）
 
-> MVP 阶段可以只做 `lol_matches_v1`，baseline 也从该索引实时聚合得到（Level 4）。
+> MVP 阶段可以只做 `lol_matches`，baseline 也从该索引实时聚合得到（Level 4）。
 
 ---
 
-## 2. `lol_matches_v1`：对局明细索引（核心）
+## 2. `lol_matches`：对局明细索引（核心）
 
 ### 2.1 文档粒度：一场比赛 1 文档，还是 2 文档？
 
@@ -71,7 +71,7 @@
 > 注意：ES 8 默认 dynamic mapping 会把数字当 long；建议显式 mapping，避免误差与后续字段漂移。
 
 ```json
-PUT lol_matches_v1
+PUT lol_matches
 {
   "settings": {
     "number_of_shards": 1,
@@ -142,7 +142,7 @@ PUT lol_matches_v1
 ### 3.2 Level 4：baseline（patch/rank/role 下的强度榜）
 
 ```json
-GET lol_matches_v1/_search
+GET lol_matches/_search
 {
   "size": 0,
   "query": {
@@ -180,7 +180,7 @@ GET lol_matches_v1/_search
 - 聚合：terms(ally.requiredRole)
 
 ```json
-GET lol_matches_v1/_search
+GET lol_matches/_search
 {
   "size": 0,
   "query": {
@@ -253,11 +253,25 @@ GET lol_matches_v1/_search
 - 幂等：使用固定 `_id = matchId_side`，重复导入会覆盖，不会重复计数
 - 导入前可以先创建索引（dynamic strict），避免字段漂移
 
+### 5.1 索引存在但文档为 0 的排查顺序
+
+若 `lol_matches` 已存在但 `docs.count = 0`，优先追查写入链路（而非查询层）：
+
+1. 采集任务是否拉到数据（matchId / match detail 是否非空）
+2. 清洗转换是否产出文档（每局是否拆成 `matchId_RED` / `matchId_BLUE` 两条）
+3. Bulk 请求是否成功（检查 `errors=false`、`items.*.status`）
+4. 幂等 `_id` 是否异常（例如固定成同一个值导致被覆盖）
+5. 写入目标索引是否正确（确认不是写到了其他名字）
+
+可直接使用脚本：
+- `scripts/ingest/collect_riot_matches.py`：采集并转换对局
+- `scripts/ingest/bulk_ingest_es.py`：创建索引、Bulk 入库、校验计数
+
 ---
 
 ## 6. 版本与兼容策略
 
-- 索引名带版本：`lol_matches_v1` → 将来如果字段大改，创建 `lol_matches_v2`，双写一段时间
-- 代码层通过配置指定当前活跃索引名
+- 当前统一使用固定索引名：`lol_matches`
+- 若字段未来发生不兼容变更，可创建新索引并通过配置切换写入/查询目标
 
 
