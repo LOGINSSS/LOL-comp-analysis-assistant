@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+/**
+ * 英雄基础信息实体。
+ */
 @TableName("champion")
 @Data
 public class Champion {
@@ -14,9 +17,9 @@ public class Champion {
     private String name;
     private String imageUrl;
 
-    private String primaryRole;    // 主要位置
-    private String secondaryRole;  // 次要位置
-    private String tier;           // 段位评级
+    private String primaryRole;    // 主分路
+    private String secondaryRole;  // 副分路
+    private String tier;           // 强度评级
     private Double pickRate;       // 选取率
     private Double winRate;        // 胜率
 }

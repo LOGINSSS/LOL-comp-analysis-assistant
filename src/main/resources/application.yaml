@@ -26,7 +26,6 @@ spring:
   elasticsearch:
     uris: http://localhost:9200
 
-  # 避免 Spring Data Elasticsearch 启动时根据实体自动创建/更新索引（我们会手动建 mapping）
 
 server:
   port: 8080
@@ -34,4 +33,31 @@ server:
 logging:
   level:
     root: INFO
-    com.LOLCAA: DEBUG
+    com.LOLCAA: INFO
+    com.LOLCAA.mapper: WARN
+    com.LOLCAA.service.ingest.SummonerPoolRefreshService: WARN
+    com.LOLCAA.service.ingest.RiotApiClient: ERROR
+    org.mybatis: WARN
+    com.baomidou: WARN
+
+riot:
+  api:
+    key: RGAPI-838e5255-8245-4652-88b3-7adeef4f1232
+    region: asia
+    platform: KR
+    max-retries: 2
+    rate-limit-per-second: 10
+    rate-limit-per-two-minutes: 80
+  ingest:
+    enabled: true
+    fixed-delay-ms: 60000
+    ensure-index-on-startup: true
+    index-name: lol_matches
+    per-puuid-count: 8
+    queue: 420
+    match-type: ranked
+    puuid-batch-limit: 20
+    refresh-pool-before-ingest: true
+    league-queue: RANKED_SOLO_5x5
+    pool-target-size: 500
+    pool-refresh-min-interval-ms: 1800000

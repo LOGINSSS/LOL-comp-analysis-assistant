@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+/**
+ * 双英雄协同胜率实体。
+ */
 @TableName("champion_synergy")
 @Data
 public class ChampionSynergy {
@@ -15,6 +18,6 @@ public class ChampionSynergy {
 
     private Double winRate;      // 双英雄配合胜率
     private Integer gameCount;   // 数据样本量
-    private String source;       // "op.gg" 或 "custom"
+    private String source;       // 数据来源（如 op.gg/custom）
     private Long lastUpdateTime;
 }

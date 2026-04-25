@@ -1,8 +1,11 @@
 package com.LOLCAA.domain.vo;
 
-import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+/**
+ * 阵容分析结果返回 VO。
+ */
 @Data
 public class DraftAnalysisVO {
     @JsonProperty("matchup_score")

@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 英雄能力画像（stat profile）Mapper。
+ */
 @Mapper
 public interface ChampionStatProfileMapper {
 

@@ -198,7 +198,7 @@ async function submitAnalysis() {
     finalPickLocked.value = true;
     statusText.value = '分析完成';
   } catch {
-    statusText.value = '分析请求失败，请检查后端接口 /draft/analysis';
+    statusText.value = '分析请求失败，请检查后端接口 /last-pick/analyze';
   } finally {
     loading.value = false;
   }

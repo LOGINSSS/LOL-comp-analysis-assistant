@@ -15,12 +15,23 @@ public class LastPickAnalysisRequestDTO {
     /** 已 ban 的英雄 ID 列表 */
     private List<Long> bannedChampions;
 
-    /** 己方已选英雄 ID 列表（最后一选前通常为 4 个） */
-    private List<Long> allyPickedChampions;
-
-    /** 敌方已选英雄 ID 列表（最后一选前通常为 5 个） */
-    private List<Long> enemyPickedChampions;
-
-    /** 需求位置，例如 MID / JUNGLE / TOP / ADC / SUP */
+    /** 目标位置，例如 MID / JUNGLE / TOP / ADC / SUP */
     private String requiredRole;
+
+    /** 返回候选数量（默认 5，最大 20） */
+    private Integer topN;
+
+    /** 己方阵容（位置已知，requiredRole 对应位置通常为空） */
+    private Long allyTop;
+    private Long allyJungle;
+    private Long allyMid;
+    private Long allyAdc;
+    private Long allySup;
+
+    /** 敌方阵容（位置已知） */
+    private Long enemyTop;
+    private Long enemyJungle;
+    private Long enemyMid;
+    private Long enemyAdc;
+    private Long enemySup;
 }

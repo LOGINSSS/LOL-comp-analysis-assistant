@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import type { AnalysisResult as AnalysisResultType } from '@/types/draft';
 
 interface Props {
@@ -9,6 +9,27 @@ interface Props {
 
 const props = defineProps<Props>();
 const expanded = ref(false);
+const stageColorMap: Record<string, string> = {
+  P0: 'text-emerald-300',
+  P1: 'text-cyan-300',
+  P2: 'text-sky-300',
+  P3: 'text-indigo-300',
+  P4: 'text-violet-300',
+  P5: 'text-amber-300'
+};
+
+const stageColorClass = computed(() => {
+  if (!props.result) return stageColorMap.P5;
+  return stageColorMap[props.result.stageUsed] ?? stageColorMap.P5;
+});
+
+const fallbackSteps = computed(() => {
+  const raw = props.result?.topRecommendation?.fallbackReason ?? '';
+  return raw
+    .split(';')
+    .map((step) => step.trim())
+    .filter(Boolean);
+});
 
 watch(
   () => props.result,
@@ -31,24 +52,36 @@ watch(
     </div>
 
     <div v-else-if="expanded && result" class="space-y-3">
-      <p class="text-slate-100">{{ result.teamCompAnalysis }}</p>
       <div>
-        <p class="mb-1 text-xs text-slate-300">胜率预测</p>
-        <div class="h-2 w-full overflow-hidden rounded-full bg-slate-700">
-          <div class="h-full bg-cyan-400" :style="{ width: `${result.winProbability.blue}%` }" />
-        </div>
-        <p class="mt-1 text-xs text-slate-300">蓝方 {{ result.winProbability.blue }}% / 红方 {{ result.winProbability.red }}%</p>
+        <p class="text-xs font-semibold text-slate-300">策略摘要</p>
+        <p class="text-slate-100">{{ result.strategySummary }}</p>
       </div>
-      <div>
-        <p class="text-xs font-semibold text-slate-300">建议</p>
+
+      <div v-if="result.topRecommendation" class="rounded-lg border border-slate-700 bg-slate-900/30 p-3">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-semibold text-slate-100">Top1 推荐：{{ result.topRecommendation.championName }}</p>
+          <span class="text-xs font-semibold" :class="stageColorClass">{{ result.topRecommendation.levelUsed }}</span>
+        </div>
+        <p class="mt-2 text-xs text-slate-300">
+          胜率 {{ result.topRecommendation.winRate }}% · 样本 {{ result.topRecommendation.games }} · 置信度
+          {{ (result.topRecommendation.confidence * 100).toFixed(0) }}%
+        </p>
+        <p class="mt-2 text-xs text-slate-300">证据：{{ result.topRecommendation.evidence }}</p>
+      </div>
+
+      <div v-if="result.recommendations.length">
+        <p class="text-xs font-semibold text-slate-300">候选列表</p>
         <ul class="list-disc pl-5 text-sm text-slate-200">
-          <li v-for="item in result.recommendations" :key="item">{{ item }}</li>
+          <li v-for="item in result.recommendations" :key="`${item.championId}-${item.levelUsed}`">
+            {{ item.championName }} ({{ item.winRate }}% / {{ item.games }} 场 / {{ item.levelUsed }})
+          </li>
         </ul>
       </div>
-      <div>
-        <p class="text-xs font-semibold text-slate-300">克制关系</p>
+
+      <div v-if="fallbackSteps.length">
+        <p class="text-xs font-semibold text-slate-300">退火轨迹</p>
         <ul class="list-disc pl-5 text-sm text-slate-200">
-          <li v-for="item in result.counters" :key="item">{{ item }}</li>
+          <li v-for="step in fallbackSteps" :key="step">{{ step }}</li>
         </ul>
       </div>
     </div>

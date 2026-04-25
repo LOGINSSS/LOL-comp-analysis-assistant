@@ -5,10 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+/**
+ * 英雄原型标签实体。
+ */
 @TableName("champion_archetype")
 @Data
 public class ChampionArchetype {
-    @TableId(type = IdType.INPUT) // 使用外部输入的ID，因为它是champion_id
+    @TableId(type = IdType.INPUT) // 使用 champion_id 作为主键
     private Long championId;
 
     private String macroRole;  // FRONTLINE / BACKLINE / ASSASSIN

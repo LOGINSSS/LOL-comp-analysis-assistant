@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 英雄相关接口
+ * 目前仅提供英雄列表查询接口，后续可扩展英雄详情、技能信息等接口
+ */
 @RestController
 @RequestMapping("/champions")
 @RequiredArgsConstructor

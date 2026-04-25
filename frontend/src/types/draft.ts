@@ -21,13 +21,21 @@ export interface DraftSubmissionRequest {
   finalPickRole: RoleCode;
 }
 
+export interface LastPickRecommendation {
+  championId: number;
+  championName: string;
+  winRate: number;
+  games: number;
+  levelUsed: 'P0' | 'P1' | 'P2' | 'P3' | 'P4' | 'P5';
+  evidence: string;
+  fallbackReason: string;
+  confidence: number;
+}
+
 export interface AnalysisResult {
-  teamCompAnalysis: string;
-  winProbability: {
-    blue: number;
-    red: number;
-  };
-  recommendations: string[];
-  counters: string[];
+  strategySummary: string;
+  stageUsed: LastPickRecommendation['levelUsed'];
+  topRecommendation: LastPickRecommendation | null;
+  recommendations: LastPickRecommendation[];
 }
 
